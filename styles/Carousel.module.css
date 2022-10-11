@@ -1,0 +1,23 @@
+.carouselItem {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+.carouselItemImage {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 96px;
+  height: 96px;
+  /* background: url("/icons/star1.png"); */
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: contain;
+}
+.carouselItemText {
+  margin-top: 12px;
+  font-size: 12px;
+  font-weight: 700;
+  color: #675f78;
+}
