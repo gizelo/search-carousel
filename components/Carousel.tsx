@@ -1,25 +1,31 @@
-import React from "react";
+import React, { Dispatch } from "react";
 import { Swiper, SwiperSlide } from "swiper/react";
+import SwiperCore, { Autoplay } from "swiper";
 import "swiper/css";
 
 import styles from "../styles/Carousel.module.css";
 import Image from "next/image";
 
+SwiperCore.use([Autoplay]);
+
 export default ({
   data,
   itemBg,
+  setCurrentSlide,
+  reverseDirection,
 }: {
   data: { name: string; icon: string }[];
   itemBg: string;
+  setCurrentSlide: Dispatch<any>;
+  reverseDirection?: boolean;
 }) => {
   return (
     <Swiper
       spaceBetween={50}
       slidesPerView={5}
       slideToClickedSlide
-      autoplay={true}
-      //   onSlideChange={() => console.log("slide change")}
-      //   onSwiper={(swiper) => console.log(swiper)}
+      autoplay={{ delay: 1000, reverseDirection }}
+      onSwiper={setCurrentSlide}
     >
       {data.map((item) => {
         return (

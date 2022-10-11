@@ -1,4 +1,5 @@
 import Head from "next/head";
+import { useEffect, useState } from "react";
 import Carousel from "../components/Carousel";
 import Search from "../components/Search";
 
@@ -131,16 +132,26 @@ const blockchainData: IBlockchain[] = [
   },
 ];
 
-const blockchains = blockchainData.map((chain) => {
-  return { name: chain.name, icon: chain.icon };
+const blockchains = blockchainData.map((chain, id) => {
+  return { name: chain.name, icon: chain.icon, id };
 });
 
 const coins = [];
 blockchainData.map((chain) => {
-  chain.coins.forEach((coin) => coins.push(coin));
+  chain.coins.forEach((coin, id) => coins.push({ ...coin, id }));
 });
 
 export default function Home() {
+  const [currentSlide, setCurrentSlide] = useState(null);
+
+  const slideTo = (index: number) => currentSlide.slideTo(index);
+
+  const searchHandle = (text: string) => {
+    const foundCoin = coins.find((el) => el.name === text);
+    // console.log(slideNumber);
+    slideTo(foundCoin?.id || 0);
+  };
+
   return (
     <div>
       <Head>
@@ -149,12 +160,21 @@ export default function Home() {
       </Head>
 
       <div className={styles.content}>
-        <Search />
+        <Search searchHandle={searchHandle} />
         <div className={styles.carouselWrapper}>
-          <Carousel data={blockchains} itemBg={"star1.png"} />
+          <Carousel
+            data={blockchains}
+            itemBg={"star1.png"}
+            setCurrentSlide={setCurrentSlide}
+          />
         </div>
         <div className={styles.carouselWrapper}>
-          <Carousel data={coins} itemBg={"star2.png"} />
+          <Carousel
+            data={coins}
+            itemBg={"star2.png"}
+            setCurrentSlide={setCurrentSlide}
+            reverseDirection
+          />
         </div>
       </div>
     </div>
